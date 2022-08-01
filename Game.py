@@ -2,7 +2,7 @@
 @Author: Conghao Wong
 @Date: 2022-07-22 10:29:36
 @LastEditors: Conghao Wong
-@LastEditTime: 2022-08-01 14:33:42
+@LastEditTime: 2022-08-01 19:26:05
 @Description: file content
 @Github: https://github.com/cocoon2wong
 @Copyright 2022 Conghao Wong, All Rights Reserved.
@@ -10,8 +10,8 @@
 
 import pandas as pd
 
-from Event import Event
-from Team import Team
+from .Event import Event
+from .Team import Team
 
 
 class EventError(ValueError):

@@ -2,7 +2,7 @@
 @Author: Conghao Wong
 @Date: 2022-07-22 10:29:36
 @LastEditors: Conghao Wong
-@LastEditTime: 2022-07-28 15:35:38
+@LastEditTime: 2022-08-01 19:26:12
 @Description: file content
 @Github: https://github.com/cocoon2wong
 @Copyright 2022 Conghao Wong, All Rights Reserved.
@@ -11,8 +11,8 @@
 import matplotlib.pyplot as plt
 from matplotlib import animation
 
-from Constant import Constant
-from Moment import Moment
+from .Constant import Constant
+from .Moment import Moment
 
 
 class Event():
