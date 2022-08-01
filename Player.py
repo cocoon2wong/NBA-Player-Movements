@@ -1,11 +1,26 @@
+"""
+@Author: Conghao Wong
+@Date: 2022-07-22 10:29:36
+@LastEditors: Conghao Wong
+@LastEditTime: 2022-07-22 11:23:28
+@Description: file content
+@Github: https://github.com/cocoon2wong
+@Copyright 2022 Conghao Wong, All Rights Reserved.
+"""
+
 from Team import Team
 
 
-class Player:
-    """A class for keeping info about the players"""
-    def __init__(self, player):
-        self.team = Team(player[0])
-        self.id = player[1]
-        self.x = player[2]
-        self.y = player[3]
+class Player():
+    """
+    A class for keeping info about the players
+    """
+
+    def __init__(self, team_id: int, player_id,
+                 x: float, y: float):
+
+        self.team = Team(team_id)
+        self.id = player_id
+        self.x = x
+        self.y = y
         self.color = self.team.color

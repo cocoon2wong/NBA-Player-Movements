@@ -1,17 +1,34 @@
-from Constant import Constant
-from Moment import Moment
-from Team import Team
+"""
+@Author: Conghao Wong
+@Date: 2022-07-22 10:29:36
+@LastEditors: Conghao Wong
+@LastEditTime: 2022-07-28 15:35:38
+@Description: file content
+@Github: https://github.com/cocoon2wong
+@Copyright 2022 Conghao Wong, All Rights Reserved.
+"""
+
 import matplotlib.pyplot as plt
 from matplotlib import animation
-from matplotlib.patches import Circle, Rectangle, Arc
+
+from Constant import Constant
+from Moment import Moment
 
 
-class Event:
-    """A class for handling and showing events"""
+class Event():
+    """
+    A class for handling and showing events
+    """
 
-    def __init__(self, event):
+    def __init__(self, event: dict):
+        # assign moments
         moments = event['moments']
-        self.moments = [Moment(moment) for moment in moments]
+        self.moments = [Moment(quarter=moment[0],
+                               game_clock=moment[2],
+                               shot_clock=moment[3],
+                               ball_positions=moment[5][0],
+                               players_positions=moment[5][1:]) for moment in moments]
+
         home_players = event['home']['players']
         guest_players = event['visitor']['players']
         players = home_players + guest_players
@@ -44,7 +61,7 @@ class Event:
                             Constant.X_MAX),
                       ylim=(Constant.Y_MIN,
                             Constant.Y_MAX))
-        ax.axis('off')
+        # ax.axis('off')
         fig = plt.gcf()
         ax.grid(False)  # Remove grid
         start_moment = self.moments[0]
@@ -52,7 +69,7 @@ class Event:
 
         clock_info = ax.annotate('', xy=[Constant.X_CENTER, Constant.Y_CENTER],
                                  color='black', horizontalalignment='center',
-                                   verticalalignment='center')
+                                 verticalalignment='center')
 
         annotations = [ax.annotate(self.player_ids_dict[player.id][1], xy=[0, 0], color='w',
                                    horizontalalignment='center',
@@ -60,28 +77,33 @@ class Event:
                        for player in start_moment.players]
 
         # Prepare table
-        sorted_players = sorted(start_moment.players, key=lambda player: player.team.id)
-        
+        sorted_players = sorted(start_moment.players,
+                                key=lambda player: player.team.id)
+
         home_player = sorted_players[0]
         guest_player = sorted_players[5]
-        column_labels = tuple([home_player.team.name, guest_player.team.name])
-        column_colours = tuple([home_player.team.color, guest_player.team.color])
+        column_labels = tuple([home_player.team.name,
+                               guest_player.team.name])
+        column_colours = tuple([home_player.team.color,
+                                guest_player.team.color])
         cell_colours = [column_colours for _ in range(5)]
-        
-        home_players = [' #'.join([player_dict[player.id][0], player_dict[player.id][1]]) for player in sorted_players[:5]]
-        guest_players = [' #'.join([player_dict[player.id][0], player_dict[player.id][1]]) for player in sorted_players[5:]]
+
+        home_players = [' #'.join(
+            [player_dict[player.id][0], player_dict[player.id][1]]) for player in sorted_players[:5]]
+        guest_players = [' #'.join(
+            [player_dict[player.id][0], player_dict[player.id][1]]) for player in sorted_players[5:]]
         players_data = list(zip(home_players, guest_players))
 
         table = plt.table(cellText=players_data,
-                              colLabels=column_labels,
-                              colColours=column_colours,
-                              colWidths=[Constant.COL_WIDTH, Constant.COL_WIDTH],
-                              loc='bottom',
-                              cellColours=cell_colours,
-                              fontsize=Constant.FONTSIZE,
-                              cellLoc='center')
+                          colLabels=column_labels,
+                          colColours=column_colours,
+                          colWidths=[Constant.COL_WIDTH, Constant.COL_WIDTH],
+                          loc='bottom',
+                          cellColours=cell_colours,
+                          fontsize=Constant.FONTSIZE,
+                          cellLoc='center')
         table.scale(1, Constant.SCALE)
-        table_cells = table.properties()['child_artists']
+        table_cells = table.properties()['children']
         for cell in table_cells:
             cell._text.set_color('white')
 
@@ -93,11 +115,16 @@ class Event:
             ax.add_patch(circle)
         ax.add_patch(ball_circle)
 
+        # for index in range(len(self.moments)):
+        #     self.update_radius(index, player_circles, ball_circle, annotations, clock_info)
+        #     print('!', end=' ')
         anim = animation.FuncAnimation(
-                         fig, self.update_radius,
-                         fargs=(player_circles, ball_circle, annotations, clock_info),
-                         frames=len(self.moments), interval=Constant.INTERVAL)
+            fig, self.update_radius,
+            fargs=(player_circles, ball_circle, annotations, clock_info),
+            frames=len(self.moments), interval=Constant.INTERVAL)
         court = plt.imread("court.png")
+
         plt.imshow(court, zorder=0, extent=[Constant.X_MIN, Constant.X_MAX - Constant.DIFF,
                                             Constant.Y_MAX, Constant.Y_MIN])
+
         plt.show()

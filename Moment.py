@@ -1,13 +1,37 @@
+"""
+@Author: Conghao Wong
+@Date: 2022-07-22 10:29:36
+@LastEditors: Conghao Wong
+@LastEditTime: 2022-07-22 11:23:57
+@Description: file content
+@Github: https://github.com/cocoon2wong
+@Copyright 2022 Conghao Wong, All Rights Reserved.
+"""
+
 from Ball import Ball
 from Player import Player
 
-class Moment:
-    """A class for keeping info about the moments"""
-    def __init__(self, moment):
-        self.quarter = moment[0]  # Hardcoded position for quarter in json
-        self.game_clock = moment[2]  # Hardcoded position for game_clock in json
-        self.shot_clock = moment[3]  # Hardcoded position for shot_clock in json
-        ball = moment[5][0]  # Hardcoded position for ball in json
-        self.ball = Ball(ball)
-        players = moment[5][1:]  # Hardcoded position for players in json
-        self.players = [Player(player) for player in players]
+
+class Moment():
+    """
+    A class for keeping info about the moments
+    """
+
+    def __init__(self, quarter: int,
+                 game_clock: float,
+                 shot_clock: float,
+                 ball_positions: list[float],
+                 players_positions: list[float]):
+
+        self.quarter = quarter
+        self.game_clock = game_clock
+        self.shot_clock = shot_clock
+
+        self.ball = Ball(x=ball_positions[2],
+                         y=ball_positions[3],
+                         radius=ball_positions[4])
+
+        self.players = [Player(team_id=player[0],
+                               player_id=player[1],
+                               x=player[2],
+                               y=player[3]) for player in players_positions]
