@@ -2,7 +2,7 @@
 @Author: Conghao Wong
 @Date: 2022-07-22 10:29:36
 @LastEditors: Conghao Wong
-@LastEditTime: 2022-08-01 19:26:12
+@LastEditTime: 2022-08-02 11:12:22
 @Description: file content
 @Github: https://github.com/cocoon2wong
 @Copyright 2022 Conghao Wong, All Rights Reserved.
@@ -122,7 +122,7 @@ class Event():
             fig, self.update_radius,
             fargs=(player_circles, ball_circle, annotations, clock_info),
             frames=len(self.moments), interval=Constant.INTERVAL)
-        court = plt.imread("court.png")
+        court = plt.imread("./court.png")
 
         plt.imshow(court, zorder=0, extent=[Constant.X_MIN, Constant.X_MAX - Constant.DIFF,
                                             Constant.Y_MAX, Constant.Y_MIN])

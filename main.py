@@ -2,14 +2,15 @@
 @Author: Conghao Wong
 @Date: 2022-07-22 10:29:36
 @LastEditors: Conghao Wong
-@LastEditTime: 2022-07-28 15:27:46
+@LastEditTime: 2022-08-02 11:08:39
 @Description: file content
 @Github: https://github.com/cocoon2wong
 @Copyright 2022 Conghao Wong, All Rights Reserved.
 """
 
-from Game import Game
 import argparse
+
+from codes import Game
 
 parser = argparse.ArgumentParser(description='Process arguments about an NBA game.')
 parser.add_argument('--path', type=str,
